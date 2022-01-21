@@ -35,12 +35,136 @@ Validate the HTML code.
 Publish the website in the given URL.
 
 ## PROGRAM :
-
---include your code--
-
+```
+<html lang="en">
+<head><title>Web Paint</title></head>
+<canvas id="draw"></canvas>
+<style>
+* {
+  margin:0px;
+  padding:0px;
+  box-sizing:border-box;
+}
+body {
+  background:#555;
+}
+.app {
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:650px;
+  height:650px;
+  font-family:"Raleway", sans-serif;
+}
+.app .controls {
+  height:50px;
+  display:flex;
+  align-items:center;
+  background:#ddd;
+  padding:0px 10px;
+}
+.app .controls .title {
+  font-weight:600;
+  color:#222;
+  width:80px;
+}
+.app .controls .type,
+.app .controls .size,
+.app .controls .color {
+  margin: 0px 10px;
+}
+.app .controls .type input {
+  display:none;
+}
+.app .controls .type label {
+  width:30px;
+  height:30px;
+  display:inline-block;
+  text-align:center;
+  line-height:30px;
+  margin:0px 2px;
+  cursor:pointer;
+}
+.app .controls .type input:checked + label {
+  background:#111;
+  color:#eee;
+  border-radius:50%;
+}
+.app .controls .size input {
+  height:10px;
+}
+.app .controls .actions {
+  flex:1;
+  text-align:right;
+}
+.app .controls .actions button {
+  padding:5px 10px;
+  cursor:pointer;
+}
+</style>
+<body>
+<div class="app">
+  <div class="controls">
+    <div class="title">Sketch</div>
+    <div class="type">
+      <input type="radio" name="pen-type" id="pen-pencil" checked>
+      <label for="pen-pencil">
+        <i class="fa fa-pencil"></i>
+      </label>
+      <input type="radio" name="pen-type" id="pen-brush">
+      <label for="pen-brush">
+        <i class="fa fa-paint-brush"></i>
+      </label>
+    </div>
+    <div class="size">
+      <label for="pen-size">Size</label>
+      <input type="range" id="pen-size" min="1" max="50">
+    </div>
+    <div class="color">
+      <label for="pen-color">Color</label>
+      <input type="color" id="pen-color" value="#000">
+    </div>
+    <div class="actions">
+      <button id="reset-canvas">Reset</button>
+      <button id="save-canvas">Save</button>
+    </div>
+  </div>
+  <div id="canvas-wrapper"></div>
+</div>
+</body>
+<script> 
+function _(selector){
+  return document.querySelector(selector);
+}
+function setup(){
+  let canvas = createCanvas(650, 600);
+  canvas.parent("canvas-wrapper");
+  background(255);
+}
+function mouseDragged(){
+  let type = _("#pen-pencil").checked?"pencil":"brush";
+  let size = parseInt(_("#pen-size").value);
+  let color = _("#pen-color").value;
+  fill(color);
+  stroke(color);
+  if(type == "pencil"){
+    line(pmouseX, pmouseY, mouseX, mouseY);
+  } else {
+    ellipse(mouseX, mouseY, size, size);
+  }
+}
+_("#reset-canvas").addEventListener("click", function(){
+  background(255);
+});
+_("#save-canvas").addEventListener("click",function(){
+  saveCanvas(canvas, "sketch", "png");
+});
+</script>
+</html>
+```
 ## OUTPUT:
-
--- include your output screenshots ---
+![inp](1.png)
 
 ## Result:
 
